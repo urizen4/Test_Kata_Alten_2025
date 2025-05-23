@@ -1,0 +1,35 @@
+<div class="block m-2">
+
+    <h2>Contact</h2>
+
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="form-field">
+            <label for="email">Email</label>
+                <input pInputText
+                type="email"
+                id="email"
+                formControlName="email"
+                class="form-control"
+                [class.is-invalid]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched"/>
+                <div *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched" class="invalid-feedback">
+                Email requis et valide
+            </div>
+        </div>
+        <div class="form-field">
+            <label for="message">Message</label>
+            <textarea pInputTextarea
+            id="message"
+            formControlName="message"
+            rows="5"
+            [class.is-invalid]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"
+            ></textarea>
+            <div *ngIf="contactForm.get('message')?.errors?.['maxlength']" class="invalid-feedback">
+            Message trop long (max 300 caractères)
+            </div>
+        </div>
+        <div class="flex justify-content-between">
+            <p-button type="submit"  label="Envoyer" severity="success"/>
+        </div>
+    </form>
+</div>
+

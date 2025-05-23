@@ -1,0 +1,233 @@
+{
+  "info": {
+    "_postman_id": "ecommerce-api-kata-id",
+    "name": "KATA TEST E-commerce API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth - Register",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/sign-up",
+          "host": ["{{baseUrl}}"],
+          "path": ["account"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"admin\",\n  \"firstname\": \"Admin\",\n  \"email\": \"admin@admin.com\",\n  \"password\": \"admin123\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Auth - Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/sign-in",
+          "host": ["{{baseUrl}}"],
+          "path": ["token"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"admin@admin.com\",\n  \"password\": \"admin123\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var json = pm.response.json();",
+              "pm.collectionVariables.set(\"token\", json.token);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products - Create (admin only)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/products",
+          "host": ["{{baseUrl}}"],
+          "path": ["products"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"code\": \"PRD001\",\n  \"name\": \"Produit Test\",\n  \"description\": \"Description test\",\n  \"image\": \"https://via.placeholder.com/150\",\n  \"category\": \"Test\",\n  \"price\": 10.5,\n  \"quantity\": 5,\n  \"internalReference\": \"REF-001\",\n  \"shellId\": 1,\n  \"inventoryStatus\": \"INSTOCK\",\n  \"rating\": 4.5,\n  \"createdAt\": 0,\n  \"updatedAt\": 0\n}"
+        }
+      }
+    },
+    {
+      "name": "Products - Get all",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/products",
+          "host": ["{{baseUrl}}"],
+          "path": ["products"]
+        }
+      }
+    },
+    {
+      "name": "Products - Update (admin only)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/products/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["products", "1"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Produit modifié\",\n  \"price\": 13\n}"
+        }
+      }
+    },
+    {
+      "name": "Products - Delete (admin only)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/products/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["products", "1"]
+        }
+      }
+    },
+    {
+      "name": "Cart - Add",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/cart/1?quantity=2",
+          "host": ["{{baseUrl}}"],
+          "path": ["cart", "1"],
+          "query": [{ "key": "quantity", "value": "2" }]
+        }
+      }
+    },
+    {
+      "name": "Cart - Get",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/cart",
+          "host": ["{{baseUrl}}"],
+          "path": ["cart"]
+        }
+      }
+    },
+    {
+      "name": "Cart - Update quantity",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/cart/1?quantity=4",
+          "host": ["{{baseUrl}}"],
+          "path": ["cart", "1"],
+          "query": [{ "key": "quantity", "value": "4" }]
+        }
+      }
+    },
+    {
+      "name": "Cart - Remove",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/cart/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["cart", "1"]
+        }
+      }
+    },
+    {
+      "name": "Wishlist - Add",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/wishlist/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["wishlist", "1"]
+        }
+      }
+    },
+    {
+      "name": "Wishlist - Get",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/wishlist",
+          "host": ["{{baseUrl}}"],
+          "path": ["wishlist"]
+        }
+      }
+    },
+    {
+      "name": "Wishlist - Remove",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/wishlist/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["wishlist", "1"]
+        }
+      }
+    }
+  ]
+}
