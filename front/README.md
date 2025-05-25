@@ -26,7 +26,7 @@ Ce projet Angular constitue l'interface utilisateur d'une application e-commerce
 ---
 ## Stack technique
 
-- Angular 17
+- Angular 18
 - PrimeNG (UI)
 - PrimeIcons
 - SweetAlert2
